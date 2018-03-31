@@ -1,0 +1,23 @@
+from numpy import exp, array, random, dot
+
+training_set_inputs = array([[0,0,1],[1,1,1],[1,0,1],[0,1,1]])
+training_set_outputs = array([[0,1,1,0]]).T
+
+synaptic_weights = 2*random.random((3,1)) -1
+
+def __sigmoid_derivative(x):
+    return x*(1-x)
+def __sigmoid(x):
+    return 1/(1+exp(-x))
+#//////////// repeat runing this part
+output= __sigmoid(dot(training_set_inputs,synaptic_weights))
+error = training_set_outputs - output
+
+adjustment = dot(training_set_inputs.T, error*__sigmoid_derivative(output))
+
+synaptic_weights += adjustment
+#///////////Test result here
+
+
+
+__sigmoid(dot(array([0,0,1]),synaptic_weights))
