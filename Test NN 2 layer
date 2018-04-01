@@ -1,0 +1,30 @@
+from numpy import exp, array, random, dot
+
+training_set_inputs = array([[0,0,1],[1,1,1],[1,0,1],[0,1,1]])
+training_set_outputs = array([[0,1,1,0]]).T
+
+synaptic_weights = 2*random.random((3,4)) -1
+synaptic_weights_2 = 2*random.random((4,1)) -1
+
+def __sigmoid_derivative(x):
+    return x*(1-x)
+def __sigmoid(x):
+    return 1/(1+exp(-x))
+#//////////// repeat runing this part
+l0= __sigmoid(dot(training_set_inputs,synaptic_weights))
+output = __sigmoid(dot(l0,synaptic_weights_2))
+
+error = training_set_outputs - output
+
+layer2_delta = error*__sigmoid_derivative(output)
+layer1_error = dot(layer2_delta,synaptic_weights_2.T)
+layer1_delta = layer1_error*__sigmoid_derivative(l0)
+
+synaptic_weights_2 += dot(l0.T,layer2_delta)
+synaptic_weights += dot(training_set_inputs.T,layer1_delta)
+#///////////Test result here
+
+
+
+
+__sigmoid(dot(__sigmoid(dot(array([1,0,0]),synaptic_weights)),synaptic_weights_2))
