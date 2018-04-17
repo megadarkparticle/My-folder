@@ -17,9 +17,9 @@ for x in range(10000):
     
     error = training_set_outputs - output
     
-    layer2_delta = error*__sigmoid_derivative(output)
-    layer1_error = dot(layer2_delta,synaptic_weights_2.T)
-    layer1_delta = layer1_error*__sigmoid_derivative(l0)
+    layer2_delta = __sigmoid_derivative(output)*error
+    layer1_error = dot(synaptic_weights_2,layer2_delta.T)
+    layer1_delta = __sigmoid_derivative(l0)*layer1_error
     
     synaptic_weights_2 += dot(l0.T,layer2_delta)
     synaptic_weights += dot(training_set_inputs.T,layer1_delta)
@@ -28,4 +28,4 @@ for x in range(10000):
 
 
 
-print(__sigmoid(dot(__sigmoid(dot(array([1,1,1]),synaptic_weights)),synaptic_weights_2)))
+print(__sigmoid(dot(__sigmoid(dot(array([0,1,1]),synaptic_weights)),synaptic_weights_2)))
