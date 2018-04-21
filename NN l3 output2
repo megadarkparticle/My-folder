@@ -1,0 +1,37 @@
+from numpy import exp, array, random, dot
+
+training_set_inputs = array([[0,0,1],[1,1,1],[1,0,1],[0,1,1]])
+training_set_outputs = array([[0,1],[1,1],[0,1],[1,0]]).T
+
+synaptic_weights = 2*random.random((3,4)) -1
+synaptic_weights_2 = 2*random.random((4,3)) -1
+synaptic_weights_3 =  2*random.random((3,2)) -1
+
+
+def __sigmoid_derivative(x):
+    return x*(1-x)
+def __sigmoid(x):
+    return 1/(1+exp(-x))
+#//////////// repeat runing this part
+for x in range(10000):
+    l1= __sigmoid(dot(training_set_inputs,synaptic_weights))
+    l2 = __sigmoid(dot(l1,synaptic_weights_2))
+    output = __sigmoid(dot(l2,synaptic_weights_3))
+    
+    error = training_set_outputs - output.T
+    
+    layer3_delta = __sigmoid_derivative(output)*error.T
+    layer2_error = dot(synaptic_weights_3,layer3_delta.T)
+    layer2_delta = __sigmoid_derivative(l2)*layer2_error.T
+    layer1_error = dot(synaptic_weights_2,layer2_delta.T)
+    layer1_delta = __sigmoid_derivative(l1)*layer1_error   
+    
+    synaptic_weights_3 += dot(l2.T,layer3_delta)
+    synaptic_weights_2 += dot(l1.T,layer2_delta)
+    synaptic_weights += dot(training_set_inputs.T,layer1_delta)
+#///////////Test result here
+
+
+
+
+print(__sigmoid(dot(__sigmoid(dot(__sigmoid(dot(array([1,1,1]),synaptic_weights)),synaptic_weights_2)),synaptic_weights_3)))
